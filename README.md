@@ -117,10 +117,13 @@ Try to sketch out what a users' mental model would need to be.
 
 What types of interface elements are needed to support users' mental models of your system?
 
-> **Insert user mental model sketch here**
+<img width="1659" height="806" alt="image" src="https://github.com/user-attachments/assets/4fca47ca-1a1b-49e9-83b5-7c09baa3ba77" />
 
 **Response:**
+Our interface is simple enough that it can be powered by pop-ups, buttons, and text entry fields.
 
+The mental model we wish to cultivate is that Caring Bridge's AI is like a helpful friend who has helped draft many initial posts and can help you too!
+The AI will know only what you tell it, but can use this information to help make as good of a post as possible. 
 >
 
 ---
