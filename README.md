@@ -9,13 +9,13 @@
 
 ## List the names of all teammates:
 
-*
-*
-*
+* Ryan F
+* Matthew M
+* Kevin B
 
 ## What is your Group ID:
 
-*
+* A2
 
 ---
 
@@ -25,9 +25,7 @@ Let's think through the basics of the Human-AI Interaction that you will be desi
 
 Here is the figure showing **Expected Utility** from *(Horvitz 1999)*:
 
-> **Insert or re-draw Expected Utility figure here**
-
----
+<img width="334" height="215" alt="yearp" src="https://github.com/user-attachments/assets/abc8a4d0-cf20-4491-9112-9939939b4028" />
 
 ## 1. Re-draw this same figure, and consider these terms with respect to your interface.
 
@@ -55,23 +53,21 @@ Here is the figure showing **Expected Utility** from *(Horvitz 1999)*:
 
 ## 2. What is the shared representation (Heer 2018) between an interface agent and direct manipulation by a user in your system?
 
-What does this shared interface include or look like?
+The shared representation in our system is the generated CaringBridge post itself. The AI creates an example first post based on the user's onboarding information and first posts from users with similar onboarding information. This gives the user a starting point rather than requiring them to begin with a blank page.
 
-*(Include or re-draw an image of your paper prototype if that helps!)*
+Information that the AI cannot safely or accurately determine, such as names, hospital information, visitation hours, and other specific details, will be represented as highlighted brackets or placeholders within the post. The user can directly interact with these placeholders by clicking on them and either entering information into a text box, selecting an option from a menu, or using another input depending on the type of information needed.
 
-> **Insert paper prototype image here if helpful**
+The user can also directly edit any of the AI-generated surrounding text. This means that both the AI and the user are working on the same representation: the post draft. The AI provides the initial structure and example content, while the user fills in missing information, changes wording, and ultimately decides what is included before publishing.
 
-**Response:**
-
->
-
+Finally, 
+The user is not able to post untill all the brackets are filled in, or deleted (which require them to "Are you sure" a question box)
 ---
 
 ## 3. Considering your users' goals, possible actions from the system, and the shared representation, what kinds of data or information about CaringBridge users could be useful or necessary to help you infer their goals?
 
-**Response:**
+The most important information would be the information already collected during CaringBridge onboarding. This includes the user's health condition, whether they are the patient or a caregiver, their relationship to the patient if applicable, and whether they are the primary caregiver. This information can help the system identify similar first posts and generate a starting point that is more relevant to that user's situation. This is what will be fed into the AI to generate a new post after all. It could also be useful to know that this is the user's first post, since our intervention is specifically designed to help users who may be intimidated or unsure about how to begin. The system could also use information about how the user interacts with the generated post, such as which placeholders they fill in, what generated text they edit or remove, and whether they choose to use the AI-assisted creator at all.
 
->
+The system should avoid attempting to infer specific information that was never provided, especially proper nouns, medical details, visitation information, or other identifiable information. Instead, those pieces of information should remain as placeholders for the user to provide directly.
 
 ---
 
@@ -79,9 +75,24 @@ What does this shared interface include or look like?
 
 **Your answers to this question are essential for Assignment 2.**
 
-**Response:**
+To understand whether the intervention was successful, we would really want to measure both whether users were able to complete their first post and whether the AI-generated starting point actually made that process easier.
 
->
+Useful information could include:
+
+- Whether users choose the AI-assisted option or go directly to the normal post creator.
+- Whether users who select the AI-assisted option successfully complete and publish their first post.
+- How long it takes users to create their first post.
+- How many of the generated placeholders users successfully fill in.
+- How much of the AI-generated text users keep, edit, or completely remove.
+- Whether users return to the normal post creator instead of finishing the AI-assisted version.
+- Whether users use the AI-assisted creator again after their first post through the optional link in the normal post creator.
+- How confident users feel about their final post.
+- Whether users feel that the generated example made writing their first post easier or less intimidating.
+- Whether users feel that they still had control over the wording and information included in the final post.
+
+These measurements would help us determine not only whether users completed the task, but also whether the intervention reduced the difficulty of starting a first post without taking control away from the user. Overall seeing how much the users interacted or changed the pregiven prompt is our definite measure of success!
+
+Possibly could look into a "rating system" as well!
 
 ---
 
