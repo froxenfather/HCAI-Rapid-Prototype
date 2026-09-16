@@ -33,19 +33,19 @@ Here is the figure showing **Expected Utility** from *(Horvitz 1999)*:
 
 **Response:**
 
->
+> The expected utility of our interface is similar to the calculation of "is the risk worth the reward". When AI contemplates whether to jump in, it looks at two possible outcomes, jumping in to help you correctly or jumping in incorrectly and interrupting your workflow. Since the AI never knows your mind with 100% certainty, it multiplies the chance it's right by the reward, and balances that against the chance it's wrong times the penalty, which combined score is the Expected Utility. Here, G is what the user truly wants, which is the user's internal need or goal the AI can not see directly. 'A' is the AI's physical move, whether it is actually stepping in to do something. With this, Expected Utility is the 'worth it' score. The AI calculates whether jumping in does more good than harm by balancing the reward of being right against the cost of being wrong.
 
 ### b. Describe how you interpret the meaning of these lines. How steep do you think the slope of these lines should be?
 
 **Response:**
 
->
+> The lines track user satisfaction depending on whether the AI decides to step in or leave you be. The 'Action' line rises as it becomes more likely for the user to actually want help, whereas the 'No Action' line falls because working alone can become frustrating when assistance is needed. The steepness of the slopes depends on the stakes of the interaction. The more annoying an unwanted interruption is, the steeper the line needs to be.
 
 ### c. Describe in your own words, what is `p*` in your interface?
 
 **Response:**
 
->
+> I believe that p* in simpler terms is the tipping-point confidence number. It is the exact percentage that crosses the threshold where AI would decide to step in or not. If the AI's confidence is below p*, the penalty of an unwanted interruption outweighs the benefit, so it stays silent. Once confidence crosses above p*, the value of helping is greater, so it takes action.
 
 ---
 
