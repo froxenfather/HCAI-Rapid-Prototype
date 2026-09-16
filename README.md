@@ -102,10 +102,11 @@ Possibly could look into a "rating system" as well!
 
 For example, a crude UML diagram would suffice.
 
-> **Insert implementation sketch / UML diagram here**
+<img width="1757" height="1393" alt="image" src="https://github.com/user-attachments/assets/73f28eec-1afd-4bc5-881c-038794cfcbda" />
 
 **Response:**
-
+Our proposed solution involves taking the user's information and building a mad libs-esque response where they can populate the fields in the initial post themselves.
+This will be offered via pop-up on the first post, and will be available via a prompt at the bottom of the text entry field for later posts
 >
 
 ---
