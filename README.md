@@ -28,6 +28,8 @@ Here is the figure showing **Expected Utility** from *(Horvitz 1999)*:
 <img width="334" height="215" alt="yearp" src="https://github.com/user-attachments/assets/abc8a4d0-cf20-4491-9112-9939939b4028" />
 
 ## 1. Re-draw this same figure, and consider these terms with respect to your interface.
+<img width="2453" height="1732" alt="21692" src="https://github.com/user-attachments/assets/4ba0c7a3-c827-45da-9a3c-930c2a11365a" />
+
 
 ### a. Describe the Expected Utility of your interface. What are A and G?
 
