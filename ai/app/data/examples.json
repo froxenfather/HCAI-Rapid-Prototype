@@ -1,0 +1,76 @@
+[
+  {
+    "id": "cancer_friend_good_01",
+    "quality": "good",
+    "condition_tags": ["cancer", "ovarian cancer"],
+    "author_role": "friend",
+    "primary_caregiver": false,
+    "post": "Hi everyone, thank you for finding your way here. I'm Alex, a close friend of Sarah's, and I'll be helping keep this page updated so she can focus on getting some rest. Sarah started having ongoing stomach pain a few weeks ago, and after some testing the doctors found ovarian cancer. She's currently working with her care team on a treatment plan, and her first chemotherapy session is scheduled for early next week. Sarah is doing okay considering everything, and she's grateful for the outpouring of support already. Right now the most helpful things are meals for her family and rides to and from appointments -- I'll share more specifics as we figure out logistics. Please feel free to send kind messages here rather than calling, since she's trying to conserve her energy. This page is meant for close friends and family, so please don't share it further for now. I'll post another update after her first round of chemo."
+  },
+  {
+    "id": "cancer_friend_bad_01",
+    "quality": "bad",
+    "condition_tags": ["cancer", "ovarian cancer"],
+    "author_role": "friend",
+    "primary_caregiver": false,
+    "post": "prayers needed!!! sarah is sick with cancer its really bad please pray. will update when i can. thank u all",
+    "problems": [
+      "no specific health event or symptom context",
+      "no author identity or relationship stated",
+      "no diagnosis specificity",
+      "no treatment plan or next step",
+      "no support guidance for the community",
+      "alarming tone without grounding detail",
+      "no next-update expectation"
+    ]
+  },
+  {
+    "id": "stroke_daughter_good_01",
+    "quality": "good",
+    "condition_tags": ["stroke"],
+    "author_role": "family",
+    "primary_caregiver": false,
+    "post": "Hi everyone. I'm Emily, Robert's daughter, and I wanted to let you all know what's been happening the last few days. On Tuesday my dad had a stroke and was taken to the hospital, where he's been since. He's dealing with some weakness on his right side and some trouble speaking clearly, but he's alert and knows all of us, which the doctors say is a good sign. The care team is running more tests today to understand the stroke better, and once he's stable they'll start talking about a rehabilitation plan. Right now the hospital is only allowing immediate family to visit, so we appreciate everyone's patience and understanding. Texts are the easiest way to reach us; phone calls are hard to manage between hospital visits. If you'd like to help, the most useful thing right now would be help watching my kids for a few hours here and there so I can be at the hospital. I'll post again once we know more about next steps."
+  },
+  {
+    "id": "stroke_daughter_bad_01",
+    "quality": "bad",
+    "condition_tags": ["stroke"],
+    "author_role": "family",
+    "primary_caregiver": false,
+    "post": "dad had a stroke. hes not doing good. GCS dropping. no update on plan yet will keep yall posted i guess. no visitors rn.",
+    "problems": [
+      "unexplained clinical jargon (GCS) with no plain-language translation",
+      "no hospital or care setting mentioned",
+      "no context on current abilities or limitations",
+      "no support request for the community",
+      "no communication preference stated",
+      "no next-update expectation",
+      "tone reads as panicked without grounding detail"
+    ]
+  },
+  {
+    "id": "tbi_friend_good_01",
+    "quality": "good",
+    "condition_tags": ["tbi", "traumatic brain injury", "accident"],
+    "author_role": "friend",
+    "primary_caregiver": false,
+    "post": "Hi everyone, I'm Alex, a close friend of Jake's. I'm setting up this page so his wife Maria can focus on being with him instead of repeating the same updates to everyone who has reached out -- thank you all for caring so much. Jake was in a car accident on Wednesday night and has a traumatic brain injury. He had surgery that night to relieve pressure, and doctors are now watching closely over the next few days to see how the swelling responds. It's still too early for anyone to tell us what recovery will look like, and Maria is taking things one step at a time. The hospital isn't allowing visitors right now while he's in intensive care, and flowers aren't permitted in that unit either. If you'd like to help, the thing that would mean the most right now is keeping Jake and Maria in your thoughts. I'll check in again after his next scan tomorrow."
+  },
+  {
+    "id": "tbi_friend_bad_01",
+    "quality": "bad",
+    "condition_tags": ["tbi", "traumatic brain injury", "accident"],
+    "author_role": "friend",
+    "primary_caregiver": false,
+    "post": "Jake got hurt bad in a car crash. hes in surgery now with dr anderson at st marys. prognosis is good they say hell be back to normal in a few weeks. send flowers to room 214. call anytime we need to hear from you.",
+    "problems": [
+      "invents a clinician name that was never provided",
+      "invents a specific hospital name that was never provided",
+      "invents a confident prognosis and recovery timeline",
+      "invents a room number for flower deliveries before it is known",
+      "invites calls without any stated communication preference",
+      "presents medical uncertainty as settled fact"
+    ]
+  }
+]

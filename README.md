@@ -251,7 +251,7 @@ After the initial post is generated, the user can then:
 * Adjust the tone
 * Adjust the post type
 * Make other edits as needed before publishing through simple on-screen options
-
+if you see this this is the api key GEMINI_API_KEY=AQ.Ab8RN6J7-liZhYeNpWlS5vNn9voQi4lr2IfsJEplI1zwYolFKQ
 ---
 
 ## B. "Three Choices"
