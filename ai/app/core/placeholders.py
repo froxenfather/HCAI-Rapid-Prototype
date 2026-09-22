@@ -231,6 +231,24 @@ def metadata_for_active_tokens(tokens: list[str]) -> list[dict]:
     return metadata
 
 
+def missing_known_facts(post: str, resolved_context: dict[str, str]) -> list[str]:
+    """Keys of known (non-placeholder) facts whose value does not appear
+    anywhere in ``post`` (case-insensitive substring check).
+
+    This is a coarse, deterministic stand-in for the model's self-reported
+    ``coverage`` field, which is not authoritative (same rationale as
+    ``extract_tokens`` above): a model can claim a category is covered while
+    having silently dropped the actual supplied fact.
+    """
+
+    post_lower = post.lower()
+    return [
+        key
+        for key, value in known_fields(resolved_context).items()
+        if value.lower() not in post_lower
+    ]
+
+
 def substitute_known_values(post: str, resolved_context: dict[str, str]) -> str:
     """Deterministically replace any placeholder token whose field is
     actually known with the real value.

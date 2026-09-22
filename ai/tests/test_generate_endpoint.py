@@ -59,13 +59,23 @@ def test_unknown_placeholder_triggers_repair_then_succeeds(api_client):
             if calls["n"] == 1:
                 post = (
                     "[SOME_RANDOM_FIELD] is not doing well but we are hopeful "
-                    "for a full recovery soon and appreciate your support."
+                    "for a full recovery soon and appreciate your support. "
+                    "We will keep sharing updates here as we learn more, and "
+                    "we are grateful for everyone checking in during this time. "
+                    "It has meant a great deal to our whole family to see so "
+                    "much love and encouragement from friends near and far. "
+                    "Thank you for keeping our family in your thoughts."
                 )
                 used = ["SOME_RANDOM_FIELD"]
             else:
                 post = (
                     "[PATIENT_NAME] is not doing well but we are hopeful for "
-                    "a full recovery soon and appreciate your support."
+                    "a full recovery soon and appreciate your support. "
+                    "We will keep sharing updates here as we learn more, and "
+                    "we are grateful for everyone checking in during this time. "
+                    "It has meant a great deal to our whole family to see so "
+                    "much love and encouragement from friends near and far. "
+                    "Thank you for keeping our family in your thoughts."
                 )
                 used = ["PATIENT_NAME"]
             return GeminiGeneration(post=post, used_placeholders=used, coverage=_coverage_all_true())

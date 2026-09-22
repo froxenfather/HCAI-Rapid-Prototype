@@ -26,30 +26,39 @@ from app.services.validator import validate_generation
 
 def _repair_instruction(errors: list[str]) -> str:
     return (
-        "\n\nThe previous response violated the placeholder contract "
+        "\n\nThe previous response violated the contract "
         f"({'; '.join(errors)}). Regenerate using only the allowed placeholder "
-        "tokens listed above, and make sure the post is non-empty and a "
-        "reasonable length."
+        "tokens listed above. Make sure the post is non-empty, matches the "
+        "requested length, and naturally incorporates every known fact from "
+        "RESOLVED_CONTEXT rather than dropping any of them."
     )
 
 
 def _generate_validated(
-    client: GenerationClient, system_instruction: str, user_content: str
+    client: GenerationClient,
+    system_instruction: str,
+    user_content: str,
+    length: str,
+    resolved_context: dict[str, str],
 ) -> GeminiGeneration:
     generation = client.generate_post(system_instruction, user_content)
-    result = validate_generation(generation.post)
+    result = validate_generation(
+        generation.post, length=length, resolved_context=resolved_context
+    )
     if result.ok:
         return generation
 
     # One repair attempt (plan section 57). No infinite loop.
     repaired_content = user_content + _repair_instruction(result.errors)
     generation = client.generate_post(system_instruction, repaired_content)
-    result = validate_generation(generation.post)
+    result = validate_generation(
+        generation.post, length=length, resolved_context=resolved_context
+    )
     if result.ok:
         return generation
 
     raise GenerationValidationError(
-        f"Gemini output failed placeholder/length validation twice: {result.errors}"
+        f"Gemini output failed placeholder/length/coverage validation twice: {result.errors}"
     )
 
 
@@ -64,7 +73,13 @@ def generate_post(
         request, resolved_context, examples, notes
     )
 
-    generation = _generate_validated(client, system_instruction, user_content)
+    generation = _generate_validated(
+        client,
+        system_instruction,
+        user_content,
+        request.preferences.length,
+        resolved_context,
+    )
 
     final_post = substitute_known_values(generation.post, resolved_context)
     active_tokens = extract_tokens(final_post)
