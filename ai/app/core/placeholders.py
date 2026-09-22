@@ -231,9 +231,21 @@ def metadata_for_active_tokens(tokens: list[str]) -> list[dict]:
     return metadata
 
 
+_WORD_PATTERN = re.compile(r"[a-z0-9]+")
+
+# Fraction of a known value's significant words (length > 2, to skip "a",
+# "is", "to", etc.) that must show up somewhere in the post for that fact to
+# count as covered. Deliberately loose: the model is expected to paraphrase
+# ("Ryan" instead of "Ryan Freese", "her father" instead of "Dad"), not quote
+# every field verbatim, so this only needs to catch a fact that is wholesale
+# absent, not one that was merely reworded.
+_FACT_COVERAGE_THRESHOLD = 0.5
+
+
 def missing_known_facts(post: str, resolved_context: dict[str, str]) -> list[str]:
-    """Keys of known (non-placeholder) facts whose value does not appear
-    anywhere in ``post`` (case-insensitive substring check).
+    """Keys of known (non-placeholder) facts that appear to be wholesale
+    absent from ``post``, judged by fuzzy word overlap rather than an exact
+    substring match (the model is expected to paraphrase, not quote).
 
     This is a coarse, deterministic stand-in for the model's self-reported
     ``coverage`` field, which is not authoritative (same rationale as
@@ -242,11 +254,26 @@ def missing_known_facts(post: str, resolved_context: dict[str, str]) -> list[str
     """
 
     post_lower = post.lower()
-    return [
-        key
-        for key, value in known_fields(resolved_context).items()
-        if value.lower() not in post_lower
-    ]
+    post_words = set(_WORD_PATTERN.findall(post_lower))
+
+    missing: list[str] = []
+    for key, value in known_fields(resolved_context).items():
+        value_lower = value.lower()
+        if value_lower in post_lower:
+            continue
+
+        value_words = [w for w in _WORD_PATTERN.findall(value_lower) if len(w) > 2]
+        if not value_words:
+            # Trivial value (too short to meaningfully paraphrase) and no
+            # exact match above -- treat as missing.
+            missing.append(key)
+            continue
+
+        overlap = sum(1 for w in value_words if w in post_words)
+        if overlap / len(value_words) < _FACT_COVERAGE_THRESHOLD:
+            missing.append(key)
+
+    return missing
 
 
 def substitute_known_values(post: str, resolved_context: dict[str, str]) -> str:
