@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CaringBridge AI</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+
+<body>
+
+    <main class="container">
+
+        <header class="page-header">
+            <h1>CaringBridge AI</h1>
+            <p>
+                Create a first-post draft to keep family and friends
+                informed about a loved one's health journey.
+            </p>
+            <p class="required-note">
+                Fields marked with <span class="required">*</span> are required.
+            </p>
+        </header>
+
+        <!-- Progress Steps Indicator -->
+        <div class="progress-bar-container">
+            <ul class="progress-steps" id="progress-steps">
+                <li class="step-item active">1. About</li>
+                <li class="step-item">2. Situation</li>
+                <li class="step-item">3. Support</li>
+                <li class="step-item">4. Updates</li>
+                <li class="step-item">5. Style</li>
+            </ul>
+        </div>
+
+        <form id="post-form">
+
+            <!-- STEP 1: About the Page -->
+            <section class="card form-step active-step" data-step="1">
+                <h2>About the Page</h2>
+                <p class="section-description">
+                    Tell us who is creating the page and who the page is about.
+                </p>
+
+                <div class="form-group">
+                    <label for="author_role">
+                        Who is writing this page?
+                        <span class="required">*</span>
+                    </label>
+                    <select id="author_role" name="author_role" required>
+                        <option value="">Select one...</option>
+                        <option value="patient">Patient</option>
+                        <option value="caregiver">Caregiver</option>
+                        <option value="friend">Friend</option>
+                        <option value="family">Family</option>
+                        <option value="other">Other</option>
+                    </select>
+                    <small class="required-text">Required</small>
+                </div>
+
+                <div class="form-group">
+                    <label for="patient_name">
+                        Patient's name
+                        <span class="required">*</span>
+                    </label>
+                    <input type="text" id="patient_name" name="patient_name" placeholder="e.g. John" required>
+                    <small class="required-text">Required</small>
+                </div>
+
+                <div class="form-group">
+                    <label for="health_condition">
+                        Health condition
+                        <span class="required">*</span>
+                    </label>
+                    <input type="text" id="health_condition" name="health_condition" placeholder="e.g. ovarian cancer, stroke, TBI" required>
+                    <small class="required-text">Required</small>
+                </div>
+
+                <div class="form-group">
+                    <label for="author_name">
+                        Your name
+                        <span class="required">*</span>
+                    </label>
+                    <input type="text" id="author_name" name="author_name" placeholder="Your name" required>
+                    <small class="required-text">Required</small>
+                </div>
+
+                <div id="relationship-section" class="conditional-section">
+                    <div class="form-group">
+                        <label for="relationship_to_patient">
+                            Your relationship to the patient
+                            <span class="required">*</span>
+                        </label>
+                        <input type="text" id="relationship_to_patient" name="relationship_to_patient" placeholder="e.g. daughter, close friend">
+                        <small class="required-text">Required</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="is_primary_caregiver">
+                            Are you the primary caregiver?
+                        </label>
+                        <select id="is_primary_caregiver" name="is_primary_caregiver">
+                            <option value="">Unknown / not specified</option>
+                            <option value="true">Yes</option>
+                            <option value="false">No</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="primary_caregiver_name">
+                            Primary caregiver's name
+                        </label>
+                        <input type="text" id="primary_caregiver_name" name="primary_caregiver_name" placeholder="If someone else is the caregiver">
+                    </div>
+                </div>
+
+                <div class="step-navigation">
+                    <button type="button" class="next-btn primary-button">Next</button>
+                </div>
+            </section>
+
+            <!-- STEP 2: What's Happening? -->
+            <section class="card form-step" data-step="2" style="display: none;">
+                <h2>What's Happening?</h2>
+                <p class="section-description">
+                    Share information about what happened and the patient's current situation.
+                </p>
+
+                <div class="form-group">
+                    <label for="event_or_symptom_context">
+                        What happened / symptoms that led here
+                    </label>
+                    <textarea id="event_or_symptom_context" name="event_or_symptom_context" placeholder="Describe what happened or what symptoms led to this situation..."></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="diagnosis_details">
+                        Diagnosis details
+                    </label>
+                    <textarea id="diagnosis_details" name="diagnosis_details" placeholder="Share any diagnosis information you are comfortable providing..."></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="hospital_name">
+                        Hospital or care location
+                    </label>
+                    <input type="text" id="hospital_name" name="hospital_name" placeholder="Hospital, clinic, or care location">
+                </div>
+
+                <div class="form-group">
+                    <label for="treatment_plan">
+                        Treatment plan
+                    </label>
+                    <textarea id="treatment_plan" name="treatment_plan" placeholder="Describe the current treatment plan..."></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="next_medical_step">
+                        Next medical step
+                    </label>
+                    <textarea id="next_medical_step" name="next_medical_step" placeholder="What happens next?"></textarea>
+                </div>
+
+                <div class="step-navigation">
+                    <button type="button" class="prev-btn secondary-button">Back</button>
+                    <button type="button" class="next-btn primary-button">Next</button>
+                </div>
+            </section>
+
+            <!-- STEP 3: Visiting & Support -->
+            <section class="card form-step" data-step="3" style="display: none;">
+                <h2>Visiting &amp; Support</h2>
+                <p class="section-description">
+                    Let people know how they can visit or help.
+                </p>
+
+                <div class="form-group">
+                    <label for="visiting_information">
+                        Visiting information
+                    </label>
+                    <textarea id="visiting_information" name="visiting_information" placeholder="When and how can people visit?"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="flowers_information">
+                        Flowers information
+                    </label>
+                    <textarea id="flowers_information" name="flowers_information" placeholder="Are flowers welcome or discouraged?"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="phone_text_preferences">
+                        Phone / text preferences
+                    </label>
+                    <textarea id="phone_text_preferences" name="phone_text_preferences" placeholder="How should people contact you?"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="support_needs">
+                        What support would help?
+                    </label>
+                    <textarea id="support_needs" name="support_needs" placeholder="What could friends and family do to help?"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="fundraiser_information">
+                        Fundraiser information
+                    </label>
+                    <textarea id="fundraiser_information" name="fundraiser_information" placeholder="Fundraiser details, if applicable"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="food_information">
+                        Food / meal support
+                    </label>
+                    <textarea id="food_information" name="food_information" placeholder="Meal train or food-related information"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="transportation_support">
+                        Transportation support
+                    </label>
+                    <textarea id="transportation_support" name="transportation_support" placeholder="Transportation help that is needed"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="child_or_pet_care_support">
+                        Child or pet care support
+                    </label>
+                    <textarea id="child_or_pet_care_support" name="child_or_pet_care_support" placeholder="Child or pet care needs"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="other_support">
+                        Other support needed
+                    </label>
+                    <textarea id="other_support" name="other_support" placeholder="Anything else people can do to help"></textarea>
+                </div>
+
+                <div class="step-navigation">
+                    <button type="button" class="prev-btn secondary-button">Back</button>
+                    <button type="button" class="next-btn primary-button">Next</button>
+                </div>
+            </section>
+
+            <!-- STEP 4: Communication -->
+            <section class="card form-step" data-step="4" style="display: none;">
+                <h2>Communication</h2>
+                <p class="section-description">
+                    Tell people how information should be shared and when they can expect another update.
+                </p>
+
+                <div class="form-group">
+                    <label for="sharing_preference">
+                        Sharing preference
+                    </label>
+                    <textarea id="sharing_preference" name="sharing_preference" placeholder="Who can this page be shared with?"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="next_update_timing">
+                        When to expect the next update
+                    </label>
+                    <input type="text" id="next_update_timing" name="next_update_timing" placeholder="e.g. tomorrow, later this week">
+                </div>
+
+                <div class="step-navigation">
+                    <button type="button" class="prev-btn secondary-button">Back</button>
+                    <button type="button" class="next-btn primary-button">Next</button>
+                </div>
+            </section>
+
+            <!-- STEP 5: Style Preferences & Final Submit -->
+            <section class="card form-step" data-step="5" style="display: none;">
+                <h2>Style Preferences</h2>
+                <p class="section-description">
+                    Choose how you would like the generated post to sound.
+                </p>
+
+                <div class="form-group">
+                    <label for="tone">Tone</label>
+                    <select id="tone" name="tone">
+                        <option value="warm" selected>Warm</option>
+                        <option value="neutral">Neutral</option>
+                        <option value="hopeful">Hopeful</option>
+                        <option value="direct">Direct</option>
+                        <option value="gentle">Gentle</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="length">Length</label>
+                    <select id="length" name="length">
+                        <option value="short">Short</option>
+                        <option value="medium" selected>Medium</option>
+                        <option value="long">Long</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="style">Style</label>
+                    <select id="style" name="style">
+                        <option value="personal" selected>Personal</option>
+                        <option value="concise">Concise</option>
+                        <option value="informative">Informative</option>
+                    </select>
+                </div>
+
+                <div id="error-message" class="error-message" role="alert" style="display: none;"></div>
+
+                <div class="step-navigation generate-container">
+                    <button type="button" class="prev-btn secondary-button">Back</button>
+                    <button id="generate-button" class="generate-button" type="submit">
+                        Generate Draft
+                    </button>
+                </div>
+            </section>
+
+        </form>
+
+        <section id="result-section" class="card result-card" style="display: none;">
+
+            <div class="result-header">
+                <div>
+                    <h2>Generated Draft</h2>
+                    <p class="section-description">
+                        Review the draft below and make any changes you would like before using it.
+                    </p>
+                </div>
+                <button id="copy-button" class="secondary-button" type="button">
+                    Copy Post
+                </button>
+            </div>
+
+            <div id="generated-post" class="generated-post"></div>
+
+            <div id="placeholders-section" class="result-subsection" style="display: none;">
+                <h3>Information Still Needed</h3>
+                <p>
+                    The draft contains information that was not provided. These items are represented as placeholders.
+                </p>
+                <ul id="placeholders-list"></ul>
+            </div>
+
+            <div id="coverage-section" class="result-subsection" style="display: none;">
+                <h3>Coverage</h3>
+                <ul id="coverage-list"></ul>
+            </div>
+
+        </section>
+
+    </main>
+
+    <script src="/static/app.js"></script>
+
+</body>
+
+</html>

@@ -14,7 +14,7 @@ README is just the practical "how do I run/test/call this" reference.
 
 ```bash
 cd ai
-python -m venv .venv
+python -3.11 -m venv .venv
 ```
 
 Windows:

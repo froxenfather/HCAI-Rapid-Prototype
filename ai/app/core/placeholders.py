@@ -32,9 +32,6 @@ class PlaceholderSpec:
     category: str
 
 
-# key -> spec. `key` matches the corresponding field name on
-# OnboardingInfo / UserAddedDetails so resolution can be done by simple
-# attribute lookup.
 PLACEHOLDERS: dict[str, PlaceholderSpec] = {
     "patient_name": PlaceholderSpec("patient_name", "[PATIENT_NAME]", "Patient name", "identity"),
     "health_condition": PlaceholderSpec(
@@ -118,15 +115,18 @@ PLACEHOLDERS: dict[str, PlaceholderSpec] = {
     ),
 }
 
-# Fields that block publishing until filled in or explicitly removed by the
-# user. The backend only exposes this flag; the frontend owns the actual
-# publish-blocking behavior (plan section 14).
+
 REQUIRED_FOR_PUBLISH_KEYS = frozenset(
     {"patient_name", "health_condition", "relationship_to_patient"}
 )
 
-TOKEN_TO_KEY: dict[str, str] = {spec.token: key for key, spec in PLACEHOLDERS.items()}
+
+TOKEN_TO_KEY: dict[str, str] = {
+    spec.token: key for key, spec in PLACEHOLDERS.items()
+}
+
 ALL_TOKENS: frozenset[str] = frozenset(TOKEN_TO_KEY.keys())
+
 ALLOWED_TOKEN_LIST_TEXT = "\n".join(sorted(ALL_TOKENS))
 
 
@@ -135,13 +135,8 @@ def _is_missing(value: str | None) -> bool:
 
 
 def build_resolved_context(request: GeneratePostRequest) -> dict[str, str]:
-    """Build the "known value OR canonical placeholder" context (plan section 12).
+    """Build the "known value OR canonical placeholder" context."""
 
-    Every field tracked in ``PLACEHOLDERS`` is resolved deterministically to
-    either the user-supplied value (stripped) or its canonical token. This
-    dict is what gets embedded in the Gemini prompt - Gemini never sees a
-    bare ``null``.
-    """
     onboarding = request.onboarding
     details = request.details
 
@@ -170,14 +165,17 @@ def build_resolved_context(request: GeneratePostRequest) -> dict[str, str]:
     }
 
     resolved: dict[str, str] = {}
+
     for key, spec in PLACEHOLDERS.items():
         value = source_values.get(key)
         resolved[key] = value.strip() if not _is_missing(value) else spec.token
+
     return resolved
 
 
 def known_fields(resolved_context: dict[str, str]) -> dict[str, str]:
     """Subset of the resolved context whose value is NOT a placeholder token."""
+
     return {
         key: value
         for key, value in resolved_context.items()
@@ -187,16 +185,21 @@ def known_fields(resolved_context: dict[str, str]) -> dict[str, str]:
 
 def extract_tokens(text: str) -> list[str]:
     """Return every bracket token in ``text``, in first-appearance order, deduped."""
+
     seen: list[str] = []
+
     for match in TOKEN_PATTERN.finditer(text):
         token = match.group(0)
+
         if token not in seen:
             seen.append(token)
+
     return seen
 
 
 def unknown_tokens(text: str) -> list[str]:
     """Tokens present in ``text`` that are not in the canonical registry."""
+
     return [token for token in extract_tokens(text) if token not in ALL_TOKENS]
 
 
@@ -204,14 +207,17 @@ def metadata_for_active_tokens(tokens: list[str]) -> list[dict]:
     """Build frontend-facing placeholder metadata for tokens that are still
     present (i.e. unresolved) in the final post text.
     """
+
     metadata = []
+
     for token in tokens:
         key = TOKEN_TO_KEY.get(token)
+
         if key is None:
-            # Should never happen for validated text - unknown tokens are
-            # rejected earlier in the pipeline.
             continue
+
         spec = PLACEHOLDERS[key]
+
         metadata.append(
             {
                 "key": spec.key,
@@ -221,19 +227,21 @@ def metadata_for_active_tokens(tokens: list[str]) -> list[dict]:
                 "required_for_publish": spec.key in REQUIRED_FOR_PUBLISH_KEYS,
             }
         )
+
     return metadata
 
 
 def substitute_known_values(post: str, resolved_context: dict[str, str]) -> str:
     """Deterministically replace any placeholder token whose field is
-    actually known with the real value (plan section 22.3).
-
-    This repairs the case where Gemini emits a placeholder for a field the
-    user actually supplied, without spending another API call.
+    actually known with the real value.
     """
+
     result = post
+
     for key, value in known_fields(resolved_context).items():
         token = PLACEHOLDERS[key].token
+
         if token in result:
             result = result.replace(token, value)
+
     return result
