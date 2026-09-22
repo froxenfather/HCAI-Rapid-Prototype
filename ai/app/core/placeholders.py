@@ -238,8 +238,10 @@ _WORD_PATTERN = re.compile(r"[a-z0-9]+")
 # count as covered. Deliberately loose: the model is expected to paraphrase
 # ("Ryan" instead of "Ryan Freese", "her father" instead of "Dad"), not quote
 # every field verbatim, so this only needs to catch a fact that is wholesale
-# absent, not one that was merely reworded.
-_FACT_COVERAGE_THRESHOLD = 0.5
+# absent, not one that was merely reworded. Lowered from 0.5 -- even the
+# word-overlap version was still flagging real Gemini drafts that had
+# clearly incorporated a fact but reworded most of its words.
+_FACT_COVERAGE_THRESHOLD = 0.3
 
 
 def missing_known_facts(post: str, resolved_context: dict[str, str]) -> list[str]:
@@ -264,9 +266,10 @@ def missing_known_facts(post: str, resolved_context: dict[str, str]) -> list[str
 
         value_words = [w for w in _WORD_PATTERN.findall(value_lower) if len(w) > 2]
         if not value_words:
-            # Trivial value (too short to meaningfully paraphrase) and no
-            # exact match above -- treat as missing.
-            missing.append(key)
+            # Trivial value (e.g. "ER", "Dr", "OK") -- too short for
+            # word-overlap fuzzy matching to judge reliably, and short
+            # answers like this are exactly what real users type. Give it
+            # the benefit of the doubt rather than auto-flagging as missing.
             continue
 
         overlap = sum(1 for w in value_words if w in post_words)

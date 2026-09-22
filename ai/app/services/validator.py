@@ -27,15 +27,20 @@ MAX_POST_LENGTH = 5000
 # a draft that is dramatically shorter than what was asked for, not to
 # police prose length precisely.
 LENGTH_MIN_CHARS = {
-    "short": 150,
-    "medium": 350,
-    "long": 600,
+    "short": 120,
+    "medium": 280,
+    "long": 450,
 }
 
 # If more than this fraction of the known (non-placeholder) facts supplied
 # by the user are entirely absent from the post text, treat the draft as
-# having dropped too much of the supplied context to ship as-is.
-MAX_MISSING_FACT_RATIO = 0.4
+# having dropped too much of the supplied context to ship as-is. Raised from
+# 0.4 -- real Gemini drafts were still tripping the old threshold often
+# enough to fail both the normal attempt and the repair retry, surfacing as
+# a generic "Unable to generate a draft right now" error on the site. This
+# check now exists only to catch a draft that dropped nearly everything, not
+# one that dropped a handful of the (sometimes 15-20) supplied fields.
+MAX_MISSING_FACT_RATIO = 0.65
 
 
 @dataclass
