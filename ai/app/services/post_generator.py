@@ -29,8 +29,9 @@ def _repair_instruction(errors: list[str]) -> str:
         "\n\nThe previous response violated the contract "
         f"({'; '.join(errors)}). Regenerate using only the allowed placeholder "
         "tokens listed above. Make sure the post is non-empty, matches the "
-        "requested length, and naturally incorporates every known fact from "
-        "RESOLVED_CONTEXT rather than dropping any of them."
+        "requested length, and includes EVERY item in the MANDATORY CHECKLIST "
+        "(any fact named in the errors above was missing and must now appear "
+        "explicitly). Do not drop any of them."
     )
 
 

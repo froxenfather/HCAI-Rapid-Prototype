@@ -11,7 +11,7 @@ from __future__ import annotations
 
 import json
 
-from app.core.placeholders import ALLOWED_TOKEN_LIST_TEXT
+from app.core.placeholders import ALLOWED_TOKEN_LIST_TEXT, PLACEHOLDERS, known_fields
 from app.models.examples import ExampleRecord
 from app.models.requests import GeneratePostRequest
 
@@ -24,9 +24,9 @@ RESOLVED_CONTEXT_START = "RESOLVED_CONTEXT_JSON_START"
 RESOLVED_CONTEXT_END = "RESOLVED_CONTEXT_JSON_END"
 
 _LENGTH_GUIDANCE = {
-    "short": "roughly 1 to 2 short paragraphs",
-    "medium": "roughly 3 to 5 paragraphs",
-    "long": "roughly 5 to 7 paragraphs",
+    "short": "1 to 2 short paragraphs, at least 300 characters",
+    "medium": "3 to 5 paragraphs, at least 700 characters",
+    "long": "5 to 7 paragraphs, at least 1200 characters",
 }
 
 _STATIC_ANTI_PATTERNS = [
@@ -78,12 +78,23 @@ medical steps, community boundaries (visiting, flowers, calls/texts),
 support needs, privacy/sharing preferences, and when to expect another
 update.
 
+HARD REQUIREMENTS (checked automatically; a violation causes the draft to be rejected):
+1. Work every known (non-bracket) value from RESOLVED_CONTEXT into the post,
+   paraphrasing lightly but keeping the key words (names, places, dates,
+   conditions). Do not skip a supplied fact.
+2. Any bracket token you write must be copied exactly from the allowed list
+   above. Never write any other text in square brackets.
+3. Write plain prose only: no markdown, headings, bullet lists, or emojis.
+4. Meet the requested length in the user message. Never write fewer than
+   the minimum characters given there, and never exceed 4000 characters.
+
 OUTPUT:
 Return only JSON that matches the required response schema. The "post"
 field is the full draft text. "used_placeholders" should list every
-placeholder token (without brackets removed) that actually appears in your
-post text. "coverage" should honestly reflect which best-practice
-categories your post addresses, given the available facts and placeholders.
+placeholder token (with brackets) that actually appears in your post text,
+or an empty list if none. "coverage" should honestly reflect which
+best-practice categories your post addresses, given the available facts and
+placeholders.
 """
 
 
@@ -99,6 +110,16 @@ def _format_examples(examples: list[ExampleRecord]) -> str:
 def _format_anti_patterns(extra_notes: list[str]) -> str:
     notes = list(_STATIC_ANTI_PATTERNS) + [n for n in extra_notes if n not in _STATIC_ANTI_PATTERNS]
     return "\n".join(f"- {note}" for note in notes)
+
+
+def _format_required_facts(resolved_context: dict[str, str]) -> str:
+    known = known_fields(resolved_context)
+    if not known:
+        return "(The user supplied no facts; use only placeholder tokens.)"
+    return "\n".join(
+        f"{i}. {PLACEHOLDERS[key].label}: {value}"
+        for i, (key, value) in enumerate(known.items(), start=1)
+    )
 
 
 def build_user_content(
@@ -146,6 +167,16 @@ REQUESTED STYLE:
 - tone: {preferences.tone}
 - length: {preferences.length} ({length_guidance})
 - style: {preferences.style}
+
+MANDATORY CHECKLIST -- the post MUST mention every item below, each one
+clearly recognizable in the text (paraphrase lightly, but keep its key
+names, places, dates, and terms). Omitting any item is a failure and the
+draft will be rejected:
+{_format_required_facts(resolved_context)}
+
+Before responding, verify each numbered item above appears in your post. If
+any is missing, revise the post until all are present. Also confirm the post
+meets the requested length and uses only allowed bracket tokens.
 
 Write one natural draft. Return only schema-compliant structured output.
 """

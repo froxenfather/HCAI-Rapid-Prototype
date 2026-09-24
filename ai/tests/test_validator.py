@@ -71,11 +71,11 @@ def test_rejects_post_that_drops_most_supplied_facts():
         "support_needs": "meals for the family",
         "sharing_preference": "close friends and family only",
     }
-    # Only mentions two of the eight fields (six known facts); drops the
-    # rest even though the post is long enough to pass the length checks.
+    # Only mentions one of the six known facts; drops the rest even though
+    # the post is long enough to pass the length checks.
     text = (
-        "Hi everyone, I'm Sam and I'm writing to share that Jordan is going "
-        "through a tough time right now. We appreciate all the love and "
+        "Hi everyone, I'm writing to share that Jordan is going "
+        "through a tough time right now. We appreciate all your love and "
         "support from everyone checking in, and we will keep this page "
         "updated as things progress. Thank you all so much."
     )
