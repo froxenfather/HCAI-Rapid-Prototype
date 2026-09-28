@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from typing import Literal
 
-from pydantic import BaseModel, Field, field_validator
+from pydantic import BaseModel, Field, field_validator, model_validator
 
 _NAME_MAX = 100
 _SHORT_MAX = 300
@@ -38,6 +38,13 @@ class OnboardingInfo(BaseModel):
         "primary_caregiver_name",
         mode="after",
     )(_strip_or_none)
+
+    @model_validator(mode="after")
+    def _author_is_primary_caregiver(self) -> OnboardingInfo:
+        # If the author is the primary caregiver, the caregiver's name is theirs.
+        if self.is_primary_caregiver:
+            self.primary_caregiver_name = self.author_name
+        return self
 
 
 class UserAddedDetails(BaseModel):

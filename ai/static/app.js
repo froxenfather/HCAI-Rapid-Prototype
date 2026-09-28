@@ -28,6 +28,9 @@ const caregiverField =
 const caregiverNameField =
     document.getElementById("primary_caregiver_name");
 
+const caregiverNameGroup =
+    document.getElementById("caregiver-name-group");
+
 const resultSection =
     document.getElementById("result-section");
 
@@ -209,6 +212,36 @@ authorRole.addEventListener(
 
 
 // ---------------------------------------------------------
+// Primary caregiver name: only shown when the author is
+// NOT the primary caregiver
+// ---------------------------------------------------------
+
+function updateCaregiverNameField() {
+
+    const isNotCaregiver =
+        caregiverField.value === "false";
+
+    caregiverNameGroup.style.display =
+        isNotCaregiver
+            ? "block"
+            : "none";
+
+    if (!isNotCaregiver) {
+        caregiverNameField.value = "";
+    }
+}
+
+
+updateCaregiverNameField();
+
+
+caregiverField.addEventListener(
+    "change",
+    updateCaregiverNameField
+);
+
+
+// ---------------------------------------------------------
 // Error display
 // ---------------------------------------------------------
 
@@ -382,10 +415,12 @@ function buildRequest() {
                     "is_primary_caregiver"
                 ),
 
+            // Only sent when the author is not the caregiver; the
+            // backend fills it from author_name when they are.
             primary_caregiver_name:
-                getValue(
-                    "primary_caregiver_name"
-                )
+                getBooleanValue("is_primary_caregiver") === false
+                    ? getValue("primary_caregiver_name")
+                    : null
         },
 
 

@@ -28,6 +28,13 @@ def test_known_primary_caregiver_is_used_directly():
     assert ctx["primary_caregiver_name"] == "Maria"
 
 
+def test_author_who_is_primary_caregiver_becomes_primary_caregiver_name():
+    ctx = build_resolved_context(
+        _request(onboarding={"author_name": "Sam", "is_primary_caregiver": True, "primary_caregiver_name": "Maria"})
+    )
+    assert ctx["primary_caregiver_name"] == "Sam"
+
+
 def test_unknown_visiting_information_becomes_placeholder():
     ctx = build_resolved_context(_request())
     assert ctx["visiting_information"] == PLACEHOLDERS["visiting_information"].token

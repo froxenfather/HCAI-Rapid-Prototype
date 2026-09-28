@@ -73,7 +73,9 @@ def collect_onboarding() -> OnboardingInfo:
     author_name = ask("Your name (the author)")
     relationship_to_patient = ask("Your relationship to the patient (e.g. 'close friend')")
     is_primary_caregiver = ask_yes_no("Are you the primary caregiver?")
-    primary_caregiver_name = ask("Primary caregiver's name (if that's someone else)")
+    # Only ask for someone else's name when the author said they are not the
+    # primary caregiver; if they are, the backend fills it in from author_name.
+    primary_caregiver_name = ask("Primary caregiver's name") if is_primary_caregiver is False else None
 
     return OnboardingInfo(
         patient_name=patient_name,
